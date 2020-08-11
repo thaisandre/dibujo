@@ -1,6 +1,6 @@
 package dibujo;
 
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -9,7 +9,7 @@ import static java.util.regex.Pattern.compile;
 
 public enum Command {
     CREATE_CANVAS("C", compile("^C (\\d+) (\\d+)$")) {
-        public void execute(Canvas canvas, String line) {
+        public Canvas execute(Canvas canvas, String line) {
             Matcher matcher = this.getPattern().matcher(line);
             if (matcher.find()) {
                 int width = Integer.parseInt(matcher.group(1));
@@ -19,10 +19,11 @@ public enum Command {
             } else {
                 throw new RuntimeException("Invalid parameters for the create new canvas command. Should be: C <width> <height>");
             }
+            return canvas;
         }
     },
     DRAW_LINE("L", compile("^L (\\d+) (\\d+) (\\d+) (\\d+)$")) {
-        public void execute(Canvas canvas, String line) {
+        public Canvas execute(Canvas canvas, String line) {
             if (canvas == null) {
                 throw new RuntimeException("No canvas. You should create a canvas before creating a new line.");
             }
@@ -37,10 +38,11 @@ public enum Command {
             } else {
                 throw new RuntimeException("Invalid parameters for the create new line command. Should be: L <starting x> <starting y> <ending x> <ending y>");
             }
+            return canvas;
         }
     },
     DRAW_RECTANGLE("R", compile("^R (\\d+) (\\d+) (\\d+) (\\d+)$")) {
-        public void execute(Canvas canvas, String line) {
+        public Canvas execute(Canvas canvas, String line) {
             if (canvas == null) {
                 throw new RuntimeException("No canvas. You should create a canvas before creating a new rectangle.");
             }
@@ -56,10 +58,11 @@ public enum Command {
             } else {
                 throw new RuntimeException("Invalid parameters for the create new rectangle command. Should be: L <upper left corner x> <upper left corner y> <lower right corner x> <lower right corner y>");
             }
+            return canvas;
         }
     },
     FILL("B", compile("^B (\\d+) (\\d+) (\\w+)$")) {
-        public void execute(Canvas canvas, String line) {
+        public Canvas execute(Canvas canvas, String line) {
             if (canvas == null) {
                 throw new RuntimeException("No canvas. You should create a canvas before filling it.");
             }
@@ -75,12 +78,14 @@ public enum Command {
             } else {
                 throw new RuntimeException("Invalid parameters for the bucket fill command. Should be: B <starting x> <starting y> <color>");
             }
+            return canvas;
         }
     },
     EXIT("Q", compile("^Q")) {
-        public void execute(Canvas canvas, String line) {
+        public Canvas execute(Canvas canvas, String line) {
             System.out.println("Bye bye!");
             System.exit(0);
+            return canvas;
         }
     };
 
@@ -106,5 +111,5 @@ public enum Command {
                 .findFirst();
     }
 
-    public abstract void execute(Canvas canvas, String line);
+    public abstract Canvas execute(Canvas canvas, String line);
 }
