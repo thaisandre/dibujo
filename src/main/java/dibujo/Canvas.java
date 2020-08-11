@@ -1,5 +1,6 @@
 package dibujo;
 
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -117,4 +118,47 @@ public class Canvas {
         fill(positionToFill.left(), fillColor, visited);
     }
 
+    public String draw() {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i <= this.getWidth(); i++) {
+            builder.append("-");
+        }
+        builder.append("-");
+
+        builder.append("\n");
+
+        int x = 1, y = 1;
+        while (x >= 1 && x <= this.getWidth() && y >= 1 && y <= this.getHeight()) {
+            Position position = this.getPosition(x, y);
+            if (position.getX() == 1) {
+                if (position.getY() > 1) {
+                    builder.append("|\n");
+                }
+                builder.append("|");
+            }
+
+            if (position.getColor() != null) {
+                builder.append(position.getColor());
+            } else if (position.isFilled()) {
+                builder.append("x");
+            } else {
+                builder.append(" ");
+            }
+            x++;
+            if (x >= this.getWidth() + 1) {
+                x = 1;
+                y++;
+            }
+        }
+
+        builder.append("|\n");
+        builder.append("-");
+
+        for (int i = 0; i < this.getWidth(); i++) {
+            builder.append("-");
+        }
+        builder.append("-");
+        return builder.toString();
+    }
 }
