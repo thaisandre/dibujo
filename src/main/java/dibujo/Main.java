@@ -21,7 +21,7 @@ public class Main {
                     if(command.isEmpty()) {
                         err.println("Invalid command: " + line + "\n");
                     }else{
-                        canvas = command.get().execute(canvas, line);
+                        command.get().execute(this, line);
                     }
 
                     out.println();
@@ -40,7 +40,13 @@ public class Main {
         }
     }
 
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
 
+    public Canvas getCanvas() {
+        return canvas;
+    }
 
     public static void main(String[] args) {
         new Main().run(System.in, System.out, System.err);
