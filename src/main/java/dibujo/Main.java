@@ -18,13 +18,13 @@ public class Main {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 try {
-                    Optional<Command> command = Command.findCommand(line);
+                    Optional<CommandType> command = CommandType.findCommand(line);
 
 
                     if(command.isEmpty()) {
                         err.println("Invalid command: " + line + "\n");
                     }else{
-                        command.get().execute(execution, line);
+                        execution.execute(command.get().buildCommand(line));
                     }
 
                     out.println();

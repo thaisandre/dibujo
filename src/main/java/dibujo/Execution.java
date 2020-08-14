@@ -14,4 +14,13 @@ public class Execution {
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
+
+    public void execute(Command command) {
+        if(!hasCanvas() && !(command instanceof CreateCanvas)) throw new RuntimeException(command.getErrorMessage());
+        command.execute(this);
+    }
+
+    public boolean hasCanvas() {
+        return canvas !=null;
+    }
 }
