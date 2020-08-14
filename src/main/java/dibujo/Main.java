@@ -7,7 +7,10 @@ import java.util.Scanner;
 
 public class Main {
 
-    private Canvas canvas;
+    private static Execution execution;
+    static {
+        execution = new Execution();
+    }
 
     public void run(InputStream in, PrintStream out, PrintStream err) {
         try (Scanner scanner = new Scanner(in)) {
@@ -21,12 +24,12 @@ public class Main {
                     if(command.isEmpty()) {
                         err.println("Invalid command: " + line + "\n");
                     }else{
-                        command.get().execute(this, line);
+                        command.get().execute(execution, line);
                     }
 
                     out.println();
 
-                    out.print(canvas.draw());
+                    out.print(execution.drawCanvas());
 
                     out.println();
 
@@ -38,14 +41,6 @@ public class Main {
                 }
             }
         }
-    }
-
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
-
-    public Canvas getCanvas() {
-        return canvas;
     }
 
     public static void main(String[] args) {

@@ -9,7 +9,7 @@ import static java.util.regex.Pattern.compile;
 
 public enum Command {
     CREATE_CANVAS("C", compile("^C (\\d+) (\\d+)$")) {
-        public void execute(Main main, String line) {
+        public void execute(Execution main, String line) {
             Matcher matcher = this.getPattern().matcher(line);
             if (matcher.find()) {
                 int width = Integer.parseInt(matcher.group(1));
@@ -22,7 +22,7 @@ public enum Command {
         }
     },
     DRAW_LINE("L", compile("^L (\\d+) (\\d+) (\\d+) (\\d+)$")) {
-        public void execute(Main main, String line) {
+        public void execute(Execution main, String line) {
             if (main == null) {
                 throw new RuntimeException("No canvas. You should create a canvas before creating a new line.");
             }
@@ -40,7 +40,7 @@ public enum Command {
         }
     },
     DRAW_RECTANGLE("R", compile("^R (\\d+) (\\d+) (\\d+) (\\d+)$")) {
-        public void execute(Main main, String line) {
+        public void execute(Execution main, String line) {
             if (main == null) {
                 throw new RuntimeException("No canvas. You should create a canvas before creating a new rectangle.");
             }
@@ -59,7 +59,7 @@ public enum Command {
         }
     },
     FILL("B", compile("^B (\\d+) (\\d+) (\\w+)$")) {
-        public void execute(Main main, String line) {
+        public void execute(Execution main, String line) {
             if (main == null) {
                 throw new RuntimeException("No canvas. You should create a canvas before filling it.");
             }
@@ -78,7 +78,7 @@ public enum Command {
         }
     },
     EXIT("Q", compile("^Q")) {
-        public void execute(Main main, String line) {
+        public void execute(Execution main, String line) {
             System.out.println("Bye bye!");
             System.exit(0);
         }
@@ -92,10 +92,6 @@ public enum Command {
         this.pattern = pattern;
     }
 
-    public boolean matches(String line) {
-        return this.pattern.matcher(line).matches();
-    }
-
     public Pattern getPattern() {
         return pattern;
     }
@@ -106,5 +102,5 @@ public enum Command {
                 .findFirst();
     }
 
-    public abstract void execute(Main main, String line);
+    public abstract void execute(Execution main, String line);
 }
