@@ -1,6 +1,5 @@
 package dibujo;
 
-import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,14 +45,6 @@ public class Canvas {
     }
 
     public void createNewLine(int startingX, int startingY, int endingX, int endingY) {
-        if (startingX <= 0 || startingY <= 0 || endingX <= 0 || endingY <= 0) {
-            throw new RuntimeException("Invalid parameters: the starting and ending coordinates should be greater than zero. Given parameters: " + this);
-        }
-
-        if (startingX != endingX && startingY != endingY ) {
-            throw new RuntimeException("Invalid parameters: currently only horizontal or vertical lines are supported. Given parameters: " + this);
-        }
-
         if (startingX > width ||  endingX > width || startingY > height || endingY > height) {
             throw new RuntimeException("Invalid parameters: the line coordinates should not be off limits. Given parameters: " + this + " starting(X=" + startingX + ", Y=" + startingY + ") ending(X="+endingX+ ", Y=" + endingY + ")");
         }
@@ -66,10 +57,6 @@ public class Canvas {
     }
 
     public void createNewRectangle(int upperLeftCornerX, int upperLeftCornerY, int lowerRightCornerX, int lowerRightCornerY) {
-        if (upperLeftCornerX <= 0 || upperLeftCornerY <= 0 || lowerRightCornerX <= 0 || lowerRightCornerY <= 0) {
-            throw new RuntimeException("Invalid parameters: the upper left corner and lower right corner coordinates should be greater than zero. Given parameters: " + this);
-        }
-
         if (upperLeftCornerX > width || lowerRightCornerX > width || upperLeftCornerY > height || lowerRightCornerY > height) {
             throw new RuntimeException("Invalid parameters: the rectangle coordinates should not be off limits. Given parameters: " + this + " upperLeftCorner(X=" + upperLeftCornerX + ", Y=" + upperLeftCornerY + " lowerRightCorner(X=" + lowerRightCornerX + ",Y=" + lowerRightCornerY + ")");
         }
@@ -116,49 +103,5 @@ public class Canvas {
 
         fill(positionToFill.leftDown(), fillColor, visited);
         fill(positionToFill.left(), fillColor, visited);
-    }
-
-    public String draw() {
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i <= this.getWidth(); i++) {
-            builder.append("-");
-        }
-        builder.append("-");
-
-        builder.append("\n");
-
-        int x = 1, y = 1;
-        while (x >= 1 && x <= this.getWidth() && y >= 1 && y <= this.getHeight()) {
-            Position position = this.getPosition(x, y);
-            if (position.getX() == 1) {
-                if (position.getY() > 1) {
-                    builder.append("|\n");
-                }
-                builder.append("|");
-            }
-
-            if (position.getColor() != null) {
-                builder.append(position.getColor());
-            } else if (position.isFilled()) {
-                builder.append("x");
-            } else {
-                builder.append(" ");
-            }
-            x++;
-            if (x >= this.getWidth() + 1) {
-                x = 1;
-                y++;
-            }
-        }
-
-        builder.append("|\n");
-        builder.append("-");
-
-        for (int i = 0; i < this.getWidth(); i++) {
-            builder.append("-");
-        }
-        builder.append("-");
-        return builder.toString();
     }
 }

@@ -29,7 +29,7 @@ public class Main {
 
                     out.println();
 
-                    out.print(execution.drawCanvas());
+                    out.print(new DrawCanvas().toText(execution.getCanvas()));
 
                     out.println();
 
